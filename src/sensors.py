@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import cv2
 
 class Sensor:
 	"""
@@ -31,3 +32,9 @@ class Sensor:
 		pulse_duration = pulse_end - pulse_start
 		distance = pulse_duration * 17150
 		return distance
+	
+	def sense_camera(self):
+		pass
+
+	def sense_audio(self):
+		pass
