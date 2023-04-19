@@ -2,6 +2,10 @@ import RPi.GPIO as GPIO
 import time
 
 class Sensor:
+	"""
+	Methods for parsing sensor data
+	"""
+	
 	def __init__(self):
 		print("Initializing Sensors...")
 		self.TRIG = 16
@@ -15,7 +19,7 @@ class Sensor:
 		
 	def sense_distance(self):
 		GPIO.output(self.TRIG,GPIO.HIGH)
-		time.sleep(0.00001)
+		time.sleep(0.0001)
 		GPIO.output(self.TRIG,GPIO.LOW)
 		
 		while GPIO.input(self.ECHO) == 0:
