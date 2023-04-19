@@ -2,6 +2,10 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 class Controller:
+	"""
+	Methods for controlling the motion of a robot
+	"""
+	
 	def __init__(self):
 		print("Initializing Controller...")
 		self.IN1 = 27
@@ -43,6 +47,13 @@ class Controller:
 		GPIO.output(self.IN2,GPIO.HIGH)
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.HIGH)
+		sleep(time)
+
+	def stop_moving(self,time):
+		GPIO.output(self.IN1,GPIO.LOW)
+		GPIO.output(self.IN2,GPIO.LOW)
+		GPIO.output(self.IN3,GPIO.LOW)
+		GPIO.output(self.IN4,GPIO.LOW)
 		sleep(time)
 	
 	def set_speed(self,duty_cycle):
