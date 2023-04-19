@@ -27,18 +27,18 @@ class EmergentBehavior:
 			sleep(0.01)
 		
 	def behavior_wander(self):
+		print("FORWARD")
 		while self.distance > 20.0:
 			print(self.distance)
-			print("FORWARD")
 			self.athena_controller.move_forward(self.rate)
 			sleep(self.rate)
 		self.athena_controller.stop_moving(1)
 		self.behavior_reverse()
 		
 	def behavior_reverse(self):
+		print("BACKWARD")
 		while self.distance <= 20.0:
 			print(self.distance)
-			print("BACKWARD")
 			self.athena_controller.move_backward(self.rate)
 			sleep(self.rate)
 		self.athena_controller.stop_moving(1)
