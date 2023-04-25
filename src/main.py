@@ -15,7 +15,7 @@ class EmergentBehavior:
 		self.rate = 0.1
 		self.distance = 100.0
 		
-		self.thread_dist = threading.Thread(target=self.callback,args=())
+		self.thread_dist = threading.Thread(target=self.callback)
 		self.thread_dist.start()
 		
 		self.athena_controller.set_speed(75)
@@ -32,7 +32,7 @@ class EmergentBehavior:
 			print(self.distance)
 			self.athena_controller.move_forward(self.rate)
 			sleep(self.rate)
-		self.athena_controller.stop_moving(1)
+		self.athena_controller.stop_moving(0.25)
 		self.behavior_reverse()
 		
 	def behavior_reverse(self):
@@ -41,7 +41,7 @@ class EmergentBehavior:
 			print(self.distance)
 			self.athena_controller.move_backward(self.rate)
 			sleep(self.rate)
-		self.athena_controller.stop_moving(1)
+		self.athena_controller.stop_moving(0.25)
 		self.behavior_wander()
 		
 def main():
