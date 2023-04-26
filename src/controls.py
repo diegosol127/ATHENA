@@ -48,6 +48,22 @@ class Controller:
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.HIGH)
 		sleep(time)
+		
+	# verify direction... (my right or your right)
+	def move_right(self,time):
+		GPIO.output(self.IN1,GPIO.LOW)
+		GPIO.output(self.IN2,GPIO.HIGH)
+		GPIO.output(self.IN3,GPIO.HIGH)
+		GPIO.output(self.IN4,GPIO.LOW)
+		sleep(time)
+		
+	# verify direction... (my left or your left)
+	def move_left(self,time):
+		GPIO.output(self.IN1,GPIO.HIGH)
+		GPIO.output(self.IN2,GPIO.LOW)
+		GPIO.output(self.IN3,GPIO.LOW)
+		GPIO.output(self.IN4,GPIO.HIGH)
+		sleep(time)
 
 	def stop_moving(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
