@@ -58,19 +58,19 @@ class Controller:
 		sleep(time)
 		
 	# verify direction... (my left or your left)
-	def move_left(self,time, duration=None):
+	def move_left(self,time):
 		GPIO.output(self.IN1,GPIO.HIGH)
 		GPIO.output(self.IN2,GPIO.LOW)
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.HIGH)
-		sleep(duration if duration is not None else time)
+		sleep(time)
 
-	def stop_moving(self,time, duration=None):
+	def stop_moving(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
 		GPIO.output(self.IN2,GPIO.LOW)
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.LOW)
-		sleep(duration if duration is not None else time)
+		sleep(time)
 	
 	def set_speed(self,duty_cycle):
 		self.pA.ChangeDutyCycle(duty_cycle)
