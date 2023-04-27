@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 import picamera
 import picamera.array
 import numpy as np
@@ -9,9 +10,9 @@ face_cascade = cv2.CascadeClassifier(file_dir)
 
 try:
     with picamera.PiCamera() as camera:
-        with picamera.array.PiRGBArray(camera) as stream:
-            camera.resolution = (640,480)
-            while True:
+        while True:
+            with picamera.array.PiRGBArray(camera) as stream:
+                camera.resolution = (640,480)
                 camera.capture(stream, 'bgr', use_video_port=True)
                 frame = stream.array
                 frame_center = [camera.resolution[0]//2, camera.resolution[0]//2]
@@ -40,6 +41,9 @@ try:
                 # Reset the stream before the next capture
                 stream.seek(0)
                 stream.truncate()
+
+                time.sleep(0.2)
+
     cv2.destroyAllWindows()
 except KeyboardInterrupt:
     cv2.destroyAllWindows()
