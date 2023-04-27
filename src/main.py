@@ -14,9 +14,10 @@ class EmergentBehavior:
 
 		self.rate = 0.1
 		self.distance = 100.0
+		self.face_vec = []
 		self.face_buffer = [0,0,0,0,0,0,0,0,0,0]
 		self.face_detected = False
-		self.face_box_threshold = 20
+		self.face_box_threshold = 0.25
 		
 		self.thread_distance = threading.Thread(target=self.callback_distance)
 		self.thread_distance.start()
@@ -34,11 +35,16 @@ class EmergentBehavior:
 	def callback_camera(self):
 		while True:
 			self.face_vec = self.athena_sensor.sense_camera()
+			# print(f'FACE VECTOR = {self.face_vec}')
 
 			if self.face_vec:
 				self.face_buffer.append(1)
+				self.face_buffer.pop(0)
+				self.face_vec_prior = self.face_vec
 			else:
 				self.face_buffer.append(0)
+				self.face_buffer.pop(0)
+			# print(self.face_buffer)
 			
 			if 1 in self.face_buffer:
 				self.face_detected = True
@@ -49,9 +55,9 @@ class EmergentBehavior:
 	def behavior_wander(self):
 		print("FORWARD")
 		while (self.distance > 20.0) and (not self.face_vec):
-			print(self.distance)
+			# print(self.distance)
 			self.athena_controller.move_forward(self.rate)
-			sleep(self.rate)
+			# sleep(self.rate)
 		self.athena_controller.stop_moving(0.25)
 		if self.face_vec:
 			self.behavior_tracking()
@@ -61,28 +67,26 @@ class EmergentBehavior:
 	def behavior_reverse(self):
 		print("BACKWARD")
 		while self.distance <= 20.0:
-			print(self.distance)
+			# print(self.distance)
 			self.athena_controller.move_backward(self.rate)
-			sleep(self.rate)
+			# sleep(self.rate)
 		self.athena_controller.stop_moving(0.25)
 		self.behavior_wander()
 
 	def behavior_tracking(self):
 		print("TRACKING")
 		while (self.face_detected):
-			while (abs(self.face_vec[0]) < self.face_box_threshold):
-				if self.face_vec[0] < 0:
-					self.athena_controller.rotate_right(0.5)
-					sleep(0.5)
+			while (abs(face_vec[0]) < self.face_box_threshold) and (self.face_detected):
+				if face_vec[0] < 0:
+					self.athena_controller.rotate_CCW(0.1)
+					sleep(1)
 				else:
-					self.athena_controller.rotate_left(0.5)
-					sleep(0.5)
+					self.athena_controller.rotate_CW(0.1)
+					sleep(1)
 			self.athena_controller.move_forward(0.5)
 			sleep(0.5)
-			
-			
-
-		
+		self.behavior_wander()
+					
 def main():
 	try:
 		behavior = EmergentBehavior()
