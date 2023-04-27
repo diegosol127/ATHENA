@@ -50,7 +50,7 @@ class Controller:
 		sleep(time)
 		
 	# verify direction... (my right or your right)
-	def move_right(self,time):
+	def rotate_right(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
 		GPIO.output(self.IN2,GPIO.HIGH)
 		GPIO.output(self.IN3,GPIO.HIGH)
@@ -58,7 +58,7 @@ class Controller:
 		sleep(time)
 		
 	# verify direction... (my left or your left)
-	def move_left(self,time):
+	def rotate_left(self,time):
 		GPIO.output(self.IN1,GPIO.HIGH)
 		GPIO.output(self.IN2,GPIO.LOW)
 		GPIO.output(self.IN3,GPIO.LOW)
