@@ -2,9 +2,9 @@ import RPi.GPIO as GPIO
 import time
 import os
 import cv2
+import numpy as np
 import picamera
 import picamera.array
-import smbus
 
 class Sensor:
 	"""
@@ -56,23 +56,24 @@ class Sensor:
 	def sense_camera(self):
 		with picamera.PiCamera() as camera:
 			with picamera.array.PiRGBArray(camera) as stream:
-				camera.resolution = (640, 480)
-				frame_center = (camera.resolution[0] // 2, camera.resolution[1] // 2)
 
 				camera.capture(stream, 'bgr', use_video_port=True)
 				frame = stream.array
-
+				frame_center = [frame.shape[1]//2, frame.shape[0]//2]
+				
 				gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 				faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5)
-				face_vectors = []
+				face_vector_norm = []
 
-				for (x, y, w, h) in faces:
-					face_center = (x + w // 2, y + h // 2)
-					face_vector = (face_center[0] - frame_center[0], face_center[1] - frame_center[1])
-					face_vectors.append(face_vector)
+				if len(faces) > 0:
+					idx_max_face = np.argmax(faces[:,2]*faces[:,3])
+					(x, y, w, h) = faces[idx_max_face,:]
+					face_center = [x + w // 2, y + h // 2]
+					face_vector = [face_center[0] - frame_center[0], face_center[1] - frame_center[1]]
+					face_vector_norm = [face_vector[0]/max(frame.shape)*2,face_vector[1]/max(frame.shape)*2]
 
-				return face_vectors
+				return face_vector_norm
 
 	def sense_audio(self):
 		pass
