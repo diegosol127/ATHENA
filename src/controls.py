@@ -41,6 +41,7 @@ class Controller:
 		GPIO.output(self.IN3,GPIO.HIGH)
 		GPIO.output(self.IN4,GPIO.LOW)
 		sleep(time)
+		self.end_movement()
 		
 	def move_backward(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
@@ -48,22 +49,23 @@ class Controller:
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.HIGH)
 		sleep(time)
+		self.end_movement()
 		
-	# verify direction... (my right or your right)
-	def rotate_right(self,time):
+	def rotate_CW(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
 		GPIO.output(self.IN2,GPIO.HIGH)
 		GPIO.output(self.IN3,GPIO.HIGH)
 		GPIO.output(self.IN4,GPIO.LOW)
 		sleep(time)
+		self.end_movement()
 		
-	# verify direction... (my left or your left)
-	def rotate_left(self,time):
+	def rotate_CCW(self,time):
 		GPIO.output(self.IN1,GPIO.HIGH)
 		GPIO.output(self.IN2,GPIO.LOW)
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.HIGH)
 		sleep(time)
+		self.end_movement()
 
 	def stop_moving(self,time):
 		GPIO.output(self.IN1,GPIO.LOW)
@@ -75,3 +77,9 @@ class Controller:
 	def set_speed(self,duty_cycle):
 		self.pA.ChangeDutyCycle(duty_cycle)
 		self.pB.ChangeDutyCycle(duty_cycle)
+	
+	def end_movement(self):
+		GPIO.output(self.IN1,GPIO.LOW)
+		GPIO.output(self.IN2,GPIO.LOW)
+		GPIO.output(self.IN3,GPIO.LOW)
+		GPIO.output(self.IN4,GPIO.LOW)
